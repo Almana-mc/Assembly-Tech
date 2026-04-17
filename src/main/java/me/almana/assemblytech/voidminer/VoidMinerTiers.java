@@ -12,6 +12,7 @@ public final class VoidMinerTiers {
             case 4 -> 72_000;
             case 5 -> 40_000;
             case 6 -> 16_000;
+            case 7 -> 8_000;
             default -> 264_000;
         };
     }
@@ -24,6 +25,7 @@ public final class VoidMinerTiers {
             case 4 -> 80;
             case 5 -> 40;
             case 6 -> 20;
+            case 7 -> 10;
             default -> 400;
         };
     }

@@ -13,5 +13,6 @@ public final class MinerTierConfigBootstrap {
         ctx.register(MinerTierConfigRegistries.oreMinerKey(4), new MinerTierConfig(4, 900, 80, 6));
         ctx.register(MinerTierConfigRegistries.oreMinerKey(5), new MinerTierConfig(5, 1000, 40, 8));
         ctx.register(MinerTierConfigRegistries.oreMinerKey(6), new MinerTierConfig(6, 800, 20, 10));
+        ctx.register(MinerTierConfigRegistries.oreMinerKey(7), new MinerTierConfig(7, 800, 10, 12));
     }
 }

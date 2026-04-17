@@ -1,8 +1,9 @@
-// 26.1.2	2026-04-17T20:50:42.5062174	Registries
-b5232fc2e1036af7a84e5317a3ac17725e076ef1 data/assemblytech/assemblytech/miner_loot/void_miner/tier1_ores.json
+// 26.1.2	2026-04-17T22:19:41.2498829	Registries
+5ec4706835e5dca3d0d0b04e316485c6ff61782d data/assemblytech/assemblytech/miner_loot/void_miner/tier1_ores.json
 2265f7adb909644e8d0a47c416c4bbd9c0edd0da data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_1.json
 5e45d97752f7f8944788e5d7d5e51be0c1c7bc1f data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_2.json
 357de76c90e324bb19468f0b39d95e623049e839 data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_3.json
 1afe182fd2e7ff355b03da9b9f2b5006561484f5 data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_4.json
 1dab17c761dfbb5e67bb4778f4d0599fc86c81f7 data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_5.json
 0cd30de2404f5206e1c358fceb2a322cfcfe4568 data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_6.json
+c15aae053edc2972c94a01073106e25c1b820764 data/assemblytech/assemblytech/miner_tier_config/ore_miner/tier_7.json

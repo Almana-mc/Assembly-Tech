@@ -12,6 +12,7 @@ import me.almana.assemblytech.multiblock.modifier.ModifierData;
 import me.almana.assemblytech.port.EnergyPortBlockEntity;
 import me.almana.assemblytech.port.ItemPortBlockEntity;
 import me.almana.assemblytech.registry.ModBlockEntities;
+import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.voidminer.menu.VoidMinerStatusMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -75,7 +76,8 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
 
     @Override
     public MultiblockType getMultiblockType() {
-        return VoidMinerStructures.TIER_1;
+        int tier = ModBlocks.controllerTier(getBlockState().getBlock());
+        return VoidMinerStructures.get(tier);
     }
 
     public ItemStacksResourceHandler getOutputHandler() {

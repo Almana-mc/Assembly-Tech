@@ -21,7 +21,19 @@ public final class ModBlockEntities {
                             MultiblockSlaveEntity::new,
                             false,
                             ModBlocks.STRUCTURE_FRAME_1.get(),
-                            ModBlocks.STRUCTURE_PANEL.get(),
+                            ModBlocks.STRUCTURE_FRAME_2.get(),
+                            ModBlocks.STRUCTURE_FRAME_3.get(),
+                            ModBlocks.STRUCTURE_FRAME_4.get(),
+                            ModBlocks.STRUCTURE_FRAME_5.get(),
+                            ModBlocks.STRUCTURE_FRAME_6.get(),
+                            ModBlocks.STRUCTURE_FRAME_7.get(),
+                            ModBlocks.STRUCTURE_PANEL_1.get(),
+                            ModBlocks.STRUCTURE_PANEL_2.get(),
+                            ModBlocks.STRUCTURE_PANEL_3.get(),
+                            ModBlocks.STRUCTURE_PANEL_4.get(),
+                            ModBlocks.STRUCTURE_PANEL_5.get(),
+                            ModBlocks.STRUCTURE_PANEL_6.get(),
+                            ModBlocks.STRUCTURE_PANEL_7.get(),
                             ModBlocks.DRILL_CORE.get(),
                             ModBlocks.DRILL_BLOCK.get(),
                             ModBlocks.VOID_BLOCK.get()
@@ -33,7 +45,13 @@ public final class ModBlockEntities {
                     () -> new BlockEntityType<>(
                             VoidMinerControllerEntity::new,
                             false,
-                            ModBlocks.VOID_MINER_CONTROLLER_1.get()
+                            ModBlocks.VOID_MINER_CONTROLLER_1.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_2.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_3.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_4.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_5.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_6.get(),
+                            ModBlocks.VOID_MINER_CONTROLLER_7.get()
                     )
             );
 

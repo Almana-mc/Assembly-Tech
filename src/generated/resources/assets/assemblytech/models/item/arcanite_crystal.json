@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "assemblytech:item/arcanite_crystal"
+  }
+}

@@ -16,7 +16,7 @@ public final class MinerLootBootstrap {
                 .add(Items.COAL, 40)
                 .add(Items.IRON_ORE, 25)
                 .add(Items.DIAMOND, 5)
-                .addTiered(ModItems.TIER_1_CRYSTAL.get(), 10, 1)
+                .addTiered(ModItems.ARCANITE_CRYSTAL.get(), 10, 1)
                 .build());
     }
 }

@@ -163,7 +163,7 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         return access.evaluate((level, pos) -> {
             BlockEntity be = level.getBlockEntity(pos);
             if (!(be instanceof VoidMinerControllerEntity)) return false;
-            if (level.getBlockState(pos).getBlock() != ModBlocks.VOID_MINER_CONTROLLER_1.get()) return false;
+            if (!ModBlocks.isMinerController(level.getBlockState(pos).getBlock())) return false;
             return player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0;
         }, true);
     }

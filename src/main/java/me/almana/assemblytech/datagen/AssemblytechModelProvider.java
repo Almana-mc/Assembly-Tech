@@ -17,12 +17,14 @@ public final class AssemblytechModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        blockModels.createTrivialCube(ModBlocks.STRUCTURE_FRAME_1.get());
-        blockModels.createTrivialCube(ModBlocks.STRUCTURE_PANEL.get());
+        for (int tier = 1; tier <= ModBlocks.MINER_TIERS; tier++) {
+            blockModels.createTrivialCube(ModBlocks.frame(tier).get());
+            blockModels.createTrivialCube(ModBlocks.panel(tier).get());
+            blockModels.createTrivialCube(ModBlocks.controller(tier).get());
+        }
         blockModels.createTrivialCube(ModBlocks.DRILL_CORE.get());
         blockModels.createTrivialCube(ModBlocks.DRILL_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.VOID_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.VOID_MINER_CONTROLLER_1.get());
         blockModels.createTrivialCube(ModBlocks.ITEM_PORT.get());
         blockModels.createTrivialCube(ModBlocks.ENERGY_PORT.get());
         blockModels.createTrivialCube(ModBlocks.FLUID_PORT.get());
@@ -36,6 +38,8 @@ public final class AssemblytechModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.UPGRADE_PARALLEL_3.get());
 
         itemModels.generateFlatItem(ModItems.ASSEMBLER.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModItems.TIER_1_CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        for (int tier = 1; tier <= ModBlocks.MINER_TIERS; tier++) {
+            itemModels.generateFlatItem(ModItems.crystal(tier).get(), ModelTemplates.FLAT_ITEM);
+        }
     }
 }

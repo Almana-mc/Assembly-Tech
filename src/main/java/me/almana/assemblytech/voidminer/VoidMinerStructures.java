@@ -17,24 +17,43 @@ import java.util.Set;
 
 public final class VoidMinerStructures {
 
-    /*
-     * T1 Void Miner — 7 wide, 7 tall arching structure
-     *
-     * Y=0:  7x7 top platform — frame border, controller at center
-     * Y=-1: Corner pillars at ±3,±3, edge frames at ±3,0 and 0,±3
-     * Y=-2: Corner pillars at ±3,±3, panels filling walls between pillars
-     * Y=-3: Arch inward — pillars step to ±2,±2, panels between
-     * Y=-4: Arch converges — pillars at ±1,±1, drill core at center
-     * Y=-5: Drill block below drill core
-     * Y=-6: Void block at bottom
-     */
+    private static final MultiblockType[] TIERS = new MultiblockType[ModBlocks.MINER_TIERS + 1];
+
     public static MultiblockType TIER_1;
+    public static MultiblockType TIER_2;
+    public static MultiblockType TIER_3;
+    public static MultiblockType TIER_4;
+    public static MultiblockType TIER_5;
+    public static MultiblockType TIER_6;
+    public static MultiblockType TIER_7;
 
     public static void init() {
+        for (int tier = 1; tier <= ModBlocks.MINER_TIERS; tier++) {
+            TIERS[tier] = buildTier(tier);
+            MultiblockRegistry.register(TIERS[tier]);
+        }
+        TIER_1 = TIERS[1];
+        TIER_2 = TIERS[2];
+        TIER_3 = TIERS[3];
+        TIER_4 = TIERS[4];
+        TIER_5 = TIERS[5];
+        TIER_6 = TIERS[6];
+        TIER_7 = TIERS[7];
+    }
+
+    public static MultiblockType get(int tier) {
+        if (tier < 1 || tier > ModBlocks.MINER_TIERS) return TIERS[1];
+        return TIERS[tier];
+    }
+
+    private static MultiblockType buildTier(int tier) {
         Set<Block> upgradeBlocks = Set.copyOf(Arrays.asList(UpgradeBlocks.all()));
-        StructureDefinition structure = new StructureBuilder(1)
-                .withValidator(ComponentType.FRAME, state -> state.is(ModBlocks.STRUCTURE_FRAME_1.get()))
-                .withValidator(ComponentType.PANEL, state -> state.is(ModBlocks.STRUCTURE_PANEL.get())
+        Block frame = ModBlocks.frame(tier).get();
+        Block panel = ModBlocks.panel(tier).get();
+
+        StructureDefinition structure = new StructureBuilder(tier)
+                .withValidator(ComponentType.FRAME, state -> state.is(frame))
+                .withValidator(ComponentType.PANEL, state -> state.is(panel)
                         || state.getBlock() instanceof PortBlock
                         || upgradeBlocks.contains(state.getBlock()))
                 .withValidator(ComponentType.MODIFIER, state -> upgradeBlocks.contains(state.getBlock()))
@@ -71,12 +90,10 @@ public final class VoidMinerStructures {
 
                 .build();
 
-        TIER_1 = new MultiblockType(
-                Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_miner_t1"),
-                1,
+        return new MultiblockType(
+                Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_miner_t" + tier),
+                tier,
                 structure
         );
-
-        MultiblockRegistry.register(TIER_1);
     }
 }

@@ -1,6 +1,7 @@
 package me.almana.assemblytech.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import me.almana.assemblytech.multiblock.api.ComponentType;
 import me.almana.assemblytech.multiblock.api.StructureComponent;
@@ -23,10 +24,10 @@ public final class PlaceStructureCommand {
 
     private PlaceStructureCommand() {}
 
-    private static Map<ComponentType, Block> blockMap() {
+    private static Map<ComponentType, Block> blockMap(int tier) {
         Map<ComponentType, Block> map = new EnumMap<>(ComponentType.class);
-        map.put(ComponentType.FRAME, ModBlocks.STRUCTURE_FRAME_1.get());
-        map.put(ComponentType.PANEL, ModBlocks.STRUCTURE_PANEL.get());
+        map.put(ComponentType.FRAME, ModBlocks.frame(tier).get());
+        map.put(ComponentType.PANEL, ModBlocks.panel(tier).get());
         map.put(ComponentType.DRILL_CORE, ModBlocks.DRILL_CORE.get());
         map.put(ComponentType.DRILL_BLOCK, ModBlocks.DRILL_BLOCK.get());
         map.put(ComponentType.VOID_BLOCK, ModBlocks.VOID_BLOCK.get());
@@ -37,23 +38,26 @@ public final class PlaceStructureCommand {
         dispatcher.register(
                 Commands.literal("assemblytech")
                         .then(Commands.literal("place")
-                                .then(Commands.literal("void_miner_t1")
+                                .then(Commands.literal("void_miner")
                                         .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                                        .executes(PlaceStructureCommand::placeVoidMinerT1)
+                                        .then(Commands.argument("tier", IntegerArgumentType.integer(1, ModBlocks.MINER_TIERS))
+                                                .executes(PlaceStructureCommand::placeVoidMiner)
+                                        )
                                 )
                         )
         );
     }
 
-    private static int placeVoidMinerT1(CommandContext<CommandSourceStack> ctx) {
+    private static int placeVoidMiner(CommandContext<CommandSourceStack> ctx) {
+        int tier = IntegerArgumentType.getInteger(ctx, "tier");
         CommandSourceStack source = ctx.getSource();
         Level level = source.getLevel();
         BlockPos center = BlockPos.containing(source.getPosition());
-        Map<ComponentType, Block> map = blockMap();
+        Map<ComponentType, Block> map = blockMap(tier);
 
-        level.setBlock(center, ModBlocks.VOID_MINER_CONTROLLER_1.get().defaultBlockState(), Block.UPDATE_ALL);
+        level.setBlock(center, ModBlocks.controller(tier).get().defaultBlockState(), Block.UPDATE_ALL);
 
-        StructureDefinition structure = VoidMinerStructures.TIER_1.structure();
+        StructureDefinition structure = VoidMinerStructures.get(tier).structure();
         int placed = 0;
         for (StructureComponent comp : structure.components()) {
             BlockPos worldPos = center.offset(comp.offset());
@@ -72,9 +76,10 @@ public final class PlaceStructureCommand {
 
         int placedCount = placed;
         String formationStatus = formed ? "formed" : "not formed";
+        int finalTier = tier;
         source.sendSuccess(
                 () -> Component.literal(
-                        "Placed Void Miner T1 at "
+                        "Placed Void Miner T" + finalTier + " at "
                                 + center.toShortString()
                                 + " ("
                                 + placedCount
