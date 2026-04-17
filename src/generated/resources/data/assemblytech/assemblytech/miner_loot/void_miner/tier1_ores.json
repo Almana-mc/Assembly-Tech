@@ -1,0 +1,21 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:coal",
+      "weight": 40
+    },
+    {
+      "item": "minecraft:iron_ore",
+      "weight": 25
+    },
+    {
+      "item": "minecraft:diamond",
+      "weight": 5
+    },
+    {
+      "item": "assemblytech:tier_1_crystal",
+      "weight": 10
+    }
+  ],
+  "family": "assemblytech:void_miner/tier1_ores"
+}

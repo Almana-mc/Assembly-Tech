@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "assemblytech:block/upgrade_fortune_1"
+  }
+}
