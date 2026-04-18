@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "assemblytech:block/rough_geothermal_vent"
+  }
+}

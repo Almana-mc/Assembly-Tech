@@ -5,10 +5,15 @@ import me.almana.assemblytech.generation.MinerLootBootstrap;
 import me.almana.assemblytech.generation.MinerLootRegistries;
 import me.almana.assemblytech.generation.MinerTierConfigBootstrap;
 import me.almana.assemblytech.generation.MinerTierConfigRegistries;
+import me.almana.assemblytech.worldgen.GeothermalVentBiomeModifiers;
+import me.almana.assemblytech.worldgen.GeothermalVentConfiguredFeatures;
+import me.almana.assemblytech.worldgen.GeothermalVentPlacedFeatures;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 @EventBusSubscriber(modid = Assemblytech.MODID)
 public final class DataGenerators {
@@ -29,7 +34,10 @@ public final class DataGenerators {
     private static void register(GatherDataEvent event) {
         RegistrySetBuilder builder = new RegistrySetBuilder()
                 .add(MinerLootRegistries.MINER_LOOT, MinerLootBootstrap::bootstrap)
-                .add(MinerTierConfigRegistries.MINER_TIER_CONFIG, MinerTierConfigBootstrap::bootstrap);
+                .add(MinerTierConfigRegistries.MINER_TIER_CONFIG, MinerTierConfigBootstrap::bootstrap)
+                .add(Registries.CONFIGURED_FEATURE, GeothermalVentConfiguredFeatures::bootstrap)
+                .add(Registries.PLACED_FEATURE, GeothermalVentPlacedFeatures::bootstrap)
+                .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, GeothermalVentBiomeModifiers::bootstrap);
         event.createDatapackRegistryObjects(builder);
     }
 }

@@ -16,6 +16,7 @@ import me.almana.assemblytech.port.ItemPortScreen;
 import me.almana.assemblytech.voidminer.screen.MinerLootScreen;
 import me.almana.assemblytech.voidminer.screen.VoidMinerStatusScreen;
 import me.almana.assemblytech.voidminer.VoidMinerStructures;
+import me.almana.assemblytech.worldgen.ModFeatures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -102,6 +103,12 @@ public class Assemblytech {
                         output.accept(ModItems.UPGRADE_PARALLEL_1.get());
                         output.accept(ModItems.UPGRADE_PARALLEL_2.get());
                         output.accept(ModItems.UPGRADE_PARALLEL_3.get());
+                        output.accept(ModItems.ROUGH_GEOTHERMAL_VENT.get());
+                        output.accept(ModItems.GEOTHERMAL_VENT.get());
+                        output.accept(ModItems.PRISTINE_GEOTHERMAL_VENT.get());
+                        output.accept(ModItems.ROUGH_GEOTHERMAL_VENT_WALL.get());
+                        output.accept(ModItems.GEOTHERMAL_VENT_WALL.get());
+                        output.accept(ModItems.PRISTINE_GEOTHERMAL_VENT_WALL.get());
                     })
                     .build()
     );
@@ -111,12 +118,14 @@ public class Assemblytech {
         ModBlockEntities.init();
         ModItems.init();
         ModMenus.init();
+        ModFeatures.init();
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITY_TYPES.register(modEventBus);
         MENU_TYPES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        ModFeatures.FEATURES.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(MinerLootRegistries::register);

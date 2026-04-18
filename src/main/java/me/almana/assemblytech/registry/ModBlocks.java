@@ -1,6 +1,8 @@
 package me.almana.assemblytech.registry;
 
 import me.almana.assemblytech.Assemblytech;
+import me.almana.assemblytech.geothermal.GeothermalVentBlock;
+import me.almana.assemblytech.geothermal.GeothermalVentWallBlock;
 import me.almana.assemblytech.multiblock.controller.MultiblockControllerBlock;
 import me.almana.assemblytech.multiblock.modifier.ModifierBlock;
 import me.almana.assemblytech.multiblock.slave.MultiblockSlaveBlock;
@@ -11,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public final class ModBlocks {
@@ -162,6 +165,58 @@ public final class ModBlocks {
     public static final DeferredBlock<ModifierBlock> UPGRADE_PARALLEL_1 = registerUpgrade("upgrade_parallel_1");
     public static final DeferredBlock<ModifierBlock> UPGRADE_PARALLEL_2 = registerUpgrade("upgrade_parallel_2");
     public static final DeferredBlock<ModifierBlock> UPGRADE_PARALLEL_3 = registerUpgrade("upgrade_parallel_3");
+
+    private static DeferredBlock<Block> registerVent(String name) {
+        return Assemblytech.BLOCKS.registerBlock(
+                name,
+                GeothermalVentBlock::new,
+                () -> BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_ORANGE)
+                        .strength(-1.0f, 3600000.0f)
+                        .sound(SoundType.BASALT)
+                        .pushReaction(PushReaction.BLOCK)
+                        .noLootTable()
+                        .lightLevel(state -> 5)
+        );
+    }
+
+    private static DeferredBlock<Block> registerVentWall(String name) {
+        return Assemblytech.BLOCKS.registerBlock(
+                name,
+                GeothermalVentWallBlock::new,
+                () -> BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.STONE)
+                        .strength(2.5f, 8.0f)
+                        .sound(SoundType.BASALT)
+                        .requiresCorrectToolForDrops()
+        );
+    }
+
+    public static final DeferredBlock<Block> ROUGH_GEOTHERMAL_VENT = registerVent("rough_geothermal_vent");
+    public static final DeferredBlock<Block> GEOTHERMAL_VENT = registerVent("geothermal_vent");
+    public static final DeferredBlock<Block> PRISTINE_GEOTHERMAL_VENT = registerVent("pristine_geothermal_vent");
+
+    public static final DeferredBlock<Block> ROUGH_GEOTHERMAL_VENT_WALL = registerVentWall("rough_geothermal_vent_wall");
+    public static final DeferredBlock<Block> GEOTHERMAL_VENT_WALL = registerVentWall("geothermal_vent_wall");
+    public static final DeferredBlock<Block> PRISTINE_GEOTHERMAL_VENT_WALL = registerVentWall("pristine_geothermal_vent_wall");
+
+    public static DeferredBlock<Block> vent(int tier) {
+        return switch (tier) {
+            case 1 -> ROUGH_GEOTHERMAL_VENT;
+            case 2 -> GEOTHERMAL_VENT;
+            case 3 -> PRISTINE_GEOTHERMAL_VENT;
+            default -> GEOTHERMAL_VENT;
+        };
+    }
+
+    public static DeferredBlock<Block> ventWall(int tier) {
+        return switch (tier) {
+            case 1 -> ROUGH_GEOTHERMAL_VENT_WALL;
+            case 2 -> GEOTHERMAL_VENT_WALL;
+            case 3 -> PRISTINE_GEOTHERMAL_VENT_WALL;
+            default -> GEOTHERMAL_VENT_WALL;
+        };
+    }
 
     public static DeferredBlock<Block> frame(int tier) {
         return switch (tier) {

@@ -36,6 +36,12 @@ public final class AssemblytechModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.UPGRADE_PARALLEL_1.get());
         blockModels.createTrivialCube(ModBlocks.UPGRADE_PARALLEL_2.get());
         blockModels.createTrivialCube(ModBlocks.UPGRADE_PARALLEL_3.get());
+        blockModels.createTrivialCube(ModBlocks.ROUGH_GEOTHERMAL_VENT.get());
+        blockModels.createTrivialCube(ModBlocks.GEOTHERMAL_VENT.get());
+        blockModels.createTrivialCube(ModBlocks.PRISTINE_GEOTHERMAL_VENT.get());
+        blockModels.createTrivialCube(ModBlocks.ROUGH_GEOTHERMAL_VENT_WALL.get());
+        blockModels.createTrivialCube(ModBlocks.GEOTHERMAL_VENT_WALL.get());
+        blockModels.createTrivialCube(ModBlocks.PRISTINE_GEOTHERMAL_VENT_WALL.get());
 
         itemModels.generateFlatItem(ModItems.ASSEMBLER.get(), ModelTemplates.FLAT_ITEM);
         for (int tier = 1; tier <= ModBlocks.MINER_TIERS; tier++) {

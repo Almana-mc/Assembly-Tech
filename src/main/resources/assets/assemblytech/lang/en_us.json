@@ -61,5 +61,11 @@
   "block.assemblytech.upgrade_fortune_3": "Fortune Upgrade III",
   "block.assemblytech.upgrade_parallel_1": "Parallel Upgrade I",
   "block.assemblytech.upgrade_parallel_2": "Parallel Upgrade II",
-  "block.assemblytech.upgrade_parallel_3": "Parallel Upgrade III"
+  "block.assemblytech.upgrade_parallel_3": "Parallel Upgrade III",
+  "block.assemblytech.rough_geothermal_vent": "Rough Geothermal Vent",
+  "block.assemblytech.geothermal_vent": "Geothermal Vent",
+  "block.assemblytech.pristine_geothermal_vent": "Pristine Geothermal Vent",
+  "block.assemblytech.rough_geothermal_vent_wall": "Rough Geothermal Vent Wall",
+  "block.assemblytech.geothermal_vent_wall": "Geothermal Vent Wall",
+  "block.assemblytech.pristine_geothermal_vent_wall": "Pristine Geothermal Vent Wall"
 }

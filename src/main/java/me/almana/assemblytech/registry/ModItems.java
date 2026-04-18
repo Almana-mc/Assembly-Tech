@@ -115,6 +115,20 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> UPGRADE_PARALLEL_3 =
             Assemblytech.ITEMS.registerSimpleBlockItem("upgrade_parallel_3", ModBlocks.UPGRADE_PARALLEL_3);
 
+    public static final DeferredItem<BlockItem> ROUGH_GEOTHERMAL_VENT =
+            Assemblytech.ITEMS.registerSimpleBlockItem("rough_geothermal_vent", ModBlocks.ROUGH_GEOTHERMAL_VENT);
+    public static final DeferredItem<BlockItem> GEOTHERMAL_VENT =
+            Assemblytech.ITEMS.registerSimpleBlockItem("geothermal_vent", ModBlocks.GEOTHERMAL_VENT);
+    public static final DeferredItem<BlockItem> PRISTINE_GEOTHERMAL_VENT =
+            Assemblytech.ITEMS.registerSimpleBlockItem("pristine_geothermal_vent", ModBlocks.PRISTINE_GEOTHERMAL_VENT);
+
+    public static final DeferredItem<BlockItem> ROUGH_GEOTHERMAL_VENT_WALL =
+            Assemblytech.ITEMS.registerSimpleBlockItem("rough_geothermal_vent_wall", ModBlocks.ROUGH_GEOTHERMAL_VENT_WALL);
+    public static final DeferredItem<BlockItem> GEOTHERMAL_VENT_WALL =
+            Assemblytech.ITEMS.registerSimpleBlockItem("geothermal_vent_wall", ModBlocks.GEOTHERMAL_VENT_WALL);
+    public static final DeferredItem<BlockItem> PRISTINE_GEOTHERMAL_VENT_WALL =
+            Assemblytech.ITEMS.registerSimpleBlockItem("pristine_geothermal_vent_wall", ModBlocks.PRISTINE_GEOTHERMAL_VENT_WALL);
+
     public static DeferredItem<Item> crystal(int tier) {
         return switch (tier) {
             case 1 -> ARCANITE_CRYSTAL;

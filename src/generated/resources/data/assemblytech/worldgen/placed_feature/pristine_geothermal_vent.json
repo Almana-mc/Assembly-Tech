@@ -1,0 +1,15 @@
+{
+  "feature": "assemblytech:pristine_geothermal_vent",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 300
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
