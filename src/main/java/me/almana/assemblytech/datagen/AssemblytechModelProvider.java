@@ -7,7 +7,11 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 
 public final class AssemblytechModelProvider extends ModelProvider {
 
@@ -18,7 +22,9 @@ public final class AssemblytechModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         for (int tier = 1; tier <= ModBlocks.MINER_TIERS; tier++) {
-            blockModels.createTrivialCube(ModBlocks.frame(tier).get());
+            Block frame = ModBlocks.frame(tier).get();
+            Material baseTexture = new Material(Identifier.fromNamespaceAndPath(Assemblytech.MODID, "block/tier_" + tier + "/structure_frame_" + tier + "_base"));
+            blockModels.createTrivialBlock(frame, b -> TexturedModel.createAllSame(baseTexture));
             blockModels.createTrivialCube(ModBlocks.panel(tier).get());
             blockModels.createTrivialCube(ModBlocks.controller(tier).get());
         }

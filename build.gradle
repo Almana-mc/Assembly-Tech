@@ -10,6 +10,10 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven {
+        name = "teamresourceful"
+        url = "https://maven.teamresourceful.com/repository/terrarium/"
+    }
 }
 
 base {
@@ -91,6 +95,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
+    runtimeOnly "earth.terrarium.athena:athena-neoforge-26.1:4.7.3"
+
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

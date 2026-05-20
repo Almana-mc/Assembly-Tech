@@ -1,0 +1,10 @@
+{
+  "athena:loader": "athena:ctm",
+  "ctm_textures": {
+    "center": "assemblytech:block/tier_6/structure_frame_6_corner",
+    "empty": "assemblytech:block/tier_6/structure_frame_6_middle",
+    "horizontal": "assemblytech:block/tier_6/structure_frame_6_horizontal",
+    "particle": "assemblytech:block/tier_6/structure_frame_6_base",
+    "vertical": "assemblytech:block/tier_6/structure_frame_6_vertical"
+  }
+}

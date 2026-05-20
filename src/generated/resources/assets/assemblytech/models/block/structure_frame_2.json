@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "assemblytech:block/structure_frame_2"
+    "all": "assemblytech:block/tier_2/structure_frame_2_base"
   }
 }

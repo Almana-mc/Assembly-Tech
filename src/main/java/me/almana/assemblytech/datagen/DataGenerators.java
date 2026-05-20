@@ -29,6 +29,7 @@ public final class DataGenerators {
     public static void onGatherDataClient(GatherDataEvent.Client event) {
         register(event);
         event.createProvider(AssemblytechModelProvider::new);
+        event.createProvider(AthenaBlockstateProvider::new);
     }
 
     private static void register(GatherDataEvent event) {
