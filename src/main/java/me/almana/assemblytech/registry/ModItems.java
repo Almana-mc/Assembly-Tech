@@ -82,15 +82,6 @@ public final class ModItems {
     public static final DeferredItem<Item> COSMYRITE_CRYSTAL =
             Assemblytech.ITEMS.registerSimpleItem("cosmyrite_crystal");
 
-    public static final DeferredItem<BlockItem> ITEM_PORT =
-            Assemblytech.ITEMS.registerSimpleBlockItem("item_port", ModBlocks.ITEM_PORT);
-
-    public static final DeferredItem<BlockItem> ENERGY_PORT =
-            Assemblytech.ITEMS.registerSimpleBlockItem("energy_port", ModBlocks.ENERGY_PORT);
-
-    public static final DeferredItem<BlockItem> FLUID_PORT =
-            Assemblytech.ITEMS.registerSimpleBlockItem("fluid_port", ModBlocks.FLUID_PORT);
-
     public static final DeferredItem<BlockItem> UPGRADE_SPEED =
             Assemblytech.ITEMS.registerSimpleBlockItem("upgrade_speed", ModBlocks.UPGRADE_SPEED);
 

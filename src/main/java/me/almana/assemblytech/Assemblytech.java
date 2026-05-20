@@ -9,10 +9,6 @@ import me.almana.assemblytech.registry.ModBlockEntities;
 import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.registry.ModItems;
 import me.almana.assemblytech.registry.ModMenus;
-import me.almana.assemblytech.network.FluidPortSyncPayload;
-import me.almana.assemblytech.port.EnergyPortScreen;
-import me.almana.assemblytech.port.FluidPortScreen;
-import me.almana.assemblytech.port.ItemPortScreen;
 import me.almana.assemblytech.voidminer.screen.MinerLootScreen;
 import me.almana.assemblytech.voidminer.screen.VoidMinerStatusScreen;
 import me.almana.assemblytech.voidminer.VoidMinerStructures;
@@ -37,7 +33,6 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
@@ -92,9 +87,6 @@ public class Assemblytech {
                         output.accept(ModItems.ECLIPSIUM_CRYSTAL.get());
                         output.accept(ModItems.COSMYRITE_CRYSTAL.get());
                         output.accept(ModItems.ASSEMBLER.get());
-                        output.accept(ModItems.ITEM_PORT.get());
-                        output.accept(ModItems.ENERGY_PORT.get());
-                        output.accept(ModItems.FLUID_PORT.get());
                         output.accept(ModItems.UPGRADE_SPEED.get());
                         output.accept(ModItems.UPGRADE_EFFICIENCY.get());
                         output.accept(ModItems.UPGRADE_FORTUNE_1.get());
@@ -131,7 +123,6 @@ public class Assemblytech {
         modEventBus.addListener(MinerLootRegistries::register);
         modEventBus.addListener(MinerTierConfigRegistries::register);
         modEventBus.addListener(this::registerCapabilities);
-        modEventBus.addListener(this::registerPayloads);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(IntegrityMonitor.class);
@@ -148,23 +139,6 @@ public class Assemblytech {
                 Capabilities.Item.BLOCK,
                 ModBlockEntities.VOID_MINER_CONTROLLER.get(),
                 (be, side) -> be.getOutputHandler());
-        event.registerBlockEntity(
-                Capabilities.Item.BLOCK,
-                ModBlockEntities.ITEM_PORT.get(),
-                (be, side) -> be.getInventory());
-        event.registerBlockEntity(
-                Capabilities.Energy.BLOCK,
-                ModBlockEntities.ENERGY_PORT.get(),
-                (be, side) -> be.getEnergy());
-        event.registerBlockEntity(
-                Capabilities.Fluid.BLOCK,
-                ModBlockEntities.FLUID_PORT.get(),
-                (be, side) -> be.getTank());
-    }
-
-    private void registerPayloads(RegisterPayloadHandlersEvent event) {
-        event.registrar("1")
-                .playToClient(FluidPortSyncPayload.TYPE, FluidPortSyncPayload.STREAM_CODEC, FluidPortSyncPayload::handle);
     }
 
     @SubscribeEvent
@@ -182,9 +156,6 @@ public class Assemblytech {
         public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenus.MINER_LOOT.get(), MinerLootScreen::new);
             event.register(ModMenus.VOID_MINER.get(), VoidMinerStatusScreen::new);
-            event.register(ModMenus.ITEM_PORT.get(), ItemPortScreen::new);
-            event.register(ModMenus.ENERGY_PORT.get(), EnergyPortScreen::new);
-            event.register(ModMenus.FLUID_PORT.get(), FluidPortScreen::new);
         }
     }
 }

@@ -2,9 +2,6 @@ package me.almana.assemblytech.registry;
 
 import me.almana.assemblytech.Assemblytech;
 import me.almana.assemblytech.multiblock.slave.MultiblockSlaveEntity;
-import me.almana.assemblytech.port.EnergyPortBlockEntity;
-import me.almana.assemblytech.port.FluidPortBlockEntity;
-import me.almana.assemblytech.port.ItemPortBlockEntity;
 import me.almana.assemblytech.upgrade.UpgradeEntity;
 import me.almana.assemblytech.voidminer.VoidMinerControllerEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -52,33 +49,6 @@ public final class ModBlockEntities {
                             ModBlocks.VOID_MINER_CONTROLLER_5.get(),
                             ModBlocks.VOID_MINER_CONTROLLER_6.get(),
                             ModBlocks.VOID_MINER_CONTROLLER_7.get()
-                    )
-            );
-
-    public static final Supplier<BlockEntityType<ItemPortBlockEntity>> ITEM_PORT =
-            Assemblytech.BLOCK_ENTITY_TYPES.register("item_port",
-                    () -> new BlockEntityType<>(
-                            ItemPortBlockEntity::new,
-                            false,
-                            ModBlocks.ITEM_PORT.get()
-                    )
-            );
-
-    public static final Supplier<BlockEntityType<EnergyPortBlockEntity>> ENERGY_PORT =
-            Assemblytech.BLOCK_ENTITY_TYPES.register("energy_port",
-                    () -> new BlockEntityType<>(
-                            EnergyPortBlockEntity::new,
-                            false,
-                            ModBlocks.ENERGY_PORT.get()
-                    )
-            );
-
-    public static final Supplier<BlockEntityType<FluidPortBlockEntity>> FLUID_PORT =
-            Assemblytech.BLOCK_ENTITY_TYPES.register("fluid_port",
-                    () -> new BlockEntityType<>(
-                            FluidPortBlockEntity::new,
-                            false,
-                            ModBlocks.FLUID_PORT.get()
                     )
             );
 

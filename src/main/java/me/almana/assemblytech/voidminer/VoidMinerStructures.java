@@ -6,7 +6,6 @@ import me.almana.assemblytech.multiblock.api.MultiblockRegistry;
 import me.almana.assemblytech.multiblock.api.MultiblockType;
 import me.almana.assemblytech.multiblock.api.StructureDefinition;
 import me.almana.assemblytech.multiblock.definition.StructureBuilder;
-import me.almana.assemblytech.port.PortBlock;
 import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.upgrade.UpgradeBlocks;
 import net.minecraft.resources.Identifier;
@@ -54,7 +53,6 @@ public final class VoidMinerStructures {
         StructureDefinition structure = new StructureBuilder(tier)
                 .withValidator(ComponentType.FRAME, state -> state.is(frame))
                 .withValidator(ComponentType.PANEL, state -> state.is(panel)
-                        || state.getBlock() instanceof PortBlock
                         || upgradeBlocks.contains(state.getBlock()))
                 .withValidator(ComponentType.MODIFIER, state -> upgradeBlocks.contains(state.getBlock()))
                 .withValidator(ComponentType.DRILL_CORE, state -> state.is(ModBlocks.DRILL_CORE.get()))

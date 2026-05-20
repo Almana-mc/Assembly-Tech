@@ -6,9 +6,6 @@ import me.almana.assemblytech.geothermal.GeothermalVentWallBlock;
 import me.almana.assemblytech.multiblock.controller.MultiblockControllerBlock;
 import me.almana.assemblytech.multiblock.modifier.ModifierBlock;
 import me.almana.assemblytech.multiblock.slave.MultiblockSlaveBlock;
-import me.almana.assemblytech.port.EnergyPortBlock;
-import me.almana.assemblytech.port.FluidPortBlock;
-import me.almana.assemblytech.port.ItemPortBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -114,36 +111,6 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> VOID_MINER_CONTROLLER_5 = registerController(5);
     public static final DeferredBlock<Block> VOID_MINER_CONTROLLER_6 = registerController(6);
     public static final DeferredBlock<Block> VOID_MINER_CONTROLLER_7 = registerController(7);
-
-    public static final DeferredBlock<Block> ITEM_PORT = Assemblytech.BLOCKS.registerBlock(
-            "item_port",
-            props -> new ItemPortBlock(props, ModBlockEntities.ITEM_PORT::get),
-            () -> BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GREEN)
-                    .strength(2.0f, 6.0f)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
-    );
-
-    public static final DeferredBlock<Block> ENERGY_PORT = Assemblytech.BLOCKS.registerBlock(
-            "energy_port",
-            props -> new EnergyPortBlock(props, ModBlockEntities.ENERGY_PORT::get),
-            () -> BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_RED)
-                    .strength(2.0f, 6.0f)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
-    );
-
-    public static final DeferredBlock<Block> FLUID_PORT = Assemblytech.BLOCKS.registerBlock(
-            "fluid_port",
-            props -> new FluidPortBlock(props, ModBlockEntities.FLUID_PORT::get),
-            () -> BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLUE)
-                    .strength(2.0f, 6.0f)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
-    );
 
     private static DeferredBlock<ModifierBlock> registerUpgrade(String name) {
         return Assemblytech.BLOCKS.registerBlock(

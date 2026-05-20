@@ -25,9 +25,6 @@ public final class AssemblytechModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.DRILL_CORE.get());
         blockModels.createTrivialCube(ModBlocks.DRILL_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.VOID_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.ITEM_PORT.get());
-        blockModels.createTrivialCube(ModBlocks.ENERGY_PORT.get());
-        blockModels.createTrivialCube(ModBlocks.FLUID_PORT.get());
         blockModels.createTrivialCube(ModBlocks.UPGRADE_SPEED.get());
         blockModels.createTrivialCube(ModBlocks.UPGRADE_EFFICIENCY.get());
         blockModels.createTrivialCube(ModBlocks.UPGRADE_FORTUNE_1.get());
