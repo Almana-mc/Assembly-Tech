@@ -31,8 +31,20 @@ public final class VoidMinerTiers {
     }
 
     public static int oreMinerEnergyPerTick(int tier) {
-        int ticks = oreMinerProcessTicks(tier);
-        return ticks <= 0 ? oreMinerEnergyCost(tier) : oreMinerEnergyCost(tier) / ticks;
+        return switch (tier) {
+            case 1 -> 200;
+            case 2 -> 500;
+            case 3 -> 1_000;
+            case 4 -> 2_000;
+            case 5 -> 4_000;
+            case 6 -> 8_000;
+            case 7 -> 16_000;
+            default -> 200;
+        };
+    }
+
+    public static int oreMinerEnergyCapacity(int tier) {
+        return oreMinerEnergyPerTick(tier) * 1_200;
     }
 
     public static int oreMinerUpgradeSlots(int tier) {

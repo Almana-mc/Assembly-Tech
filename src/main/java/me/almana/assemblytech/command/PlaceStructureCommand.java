@@ -79,7 +79,7 @@ public final class PlaceStructureCommand {
         int finalTier = tier;
         source.sendSuccess(
                 () -> Component.literal(
-                        "Placed Void Miner T" + finalTier + " at "
+                        "Placed Xeno Drill Mk." + roman(finalTier) + " at "
                                 + center.toShortString()
                                 + " ("
                                 + placedCount
@@ -90,5 +90,18 @@ public final class PlaceStructureCommand {
                 true
         );
         return placed;
+    }
+
+    private static String roman(int n) {
+        return switch (n) {
+            case 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            case 6 -> "VI";
+            case 7 -> "VII";
+            default -> Integer.toString(n);
+        };
     }
 }

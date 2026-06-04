@@ -93,10 +93,23 @@ public class MinerLootScreen extends AbstractContainerScreen<MinerLootMenu> {
                     TooltipFlag.NORMAL));
             lines.add(Component.translatable("assemblytech.miner_loot.weight", hovered.weighted.weight())
                     .withStyle(ChatFormatting.AQUA));
-            lines.add(Component.translatable("assemblytech.miner_loot.min_tier", hovered.weighted.minTier())
+            lines.add(Component.translatable("assemblytech.miner_loot.min_tier", roman(hovered.weighted.minTier()))
                     .withStyle(ChatFormatting.DARK_GRAY));
             graphics.setTooltipForNextFrame(font, lines, Optional.empty(), hovered.stack, mouseX, mouseY);
         }
+    }
+
+    private static String roman(int n) {
+        return switch (n) {
+            case 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            case 6 -> "VI";
+            case 7 -> "VII";
+            default -> Integer.toString(n);
+        };
     }
 
     private record DisplayEntry(WeightedItem weighted, ItemStack stack) {}
