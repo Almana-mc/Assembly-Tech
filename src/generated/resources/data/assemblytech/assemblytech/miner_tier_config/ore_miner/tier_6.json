@@ -1,5 +1,5 @@
 {
-  "energy_per_tick": 800,
+  "energy_per_tick": 8000,
   "process_ticks": 20,
   "tier": 6,
   "upgrade_slots": 10

@@ -139,6 +139,16 @@ public class Assemblytech {
                 Capabilities.Item.BLOCK,
                 ModBlockEntities.VOID_MINER_CONTROLLER.get(),
                 (be, side) -> be.getOutputHandler());
+
+        event.registerBlockEntity(
+                Capabilities.Energy.BLOCK,
+                ModBlockEntities.VOID_MINER_CONTROLLER.get(),
+                (be, side) -> be.getEnergyHandler());
+
+        event.registerBlockEntity(
+                Capabilities.Fluid.BLOCK,
+                ModBlockEntities.VOID_MINER_CONTROLLER.get(),
+                (be, side) -> be.getFluidHandler());
     }
 
     @SubscribeEvent
