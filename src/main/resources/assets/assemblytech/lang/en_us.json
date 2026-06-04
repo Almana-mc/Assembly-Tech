@@ -49,6 +49,7 @@
   "item.assemblytech.prismara_crystal": "Prismara Crystal",
   "item.assemblytech.eclipsium_crystal": "Eclipsium Crystal",
   "item.assemblytech.cosmyrite_crystal": "Cosmyrite Crystal",
+  "recipe_type.assemblytech.void_mining": "Void Mining",
   "assemblytech.multiblock.formed": "Structure formed!",
   "assemblytech.multiblock.already_formed": "Structure is already formed",
   "assemblytech.multiblock.missing": "Missing: %s at offset (%d, %d, %d)",

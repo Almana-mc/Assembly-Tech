@@ -3,7 +3,7 @@ package me.almana.assemblytech.generation;
 import net.minecraft.world.item.Item;
 
 public record LootRollSnapshot(
-        Item[] items,
+        Item[][] items,
         int[] cumulativeWeights,
         int[] mins,
         int[] maxs,

@@ -2,14 +2,13 @@ package me.almana.assemblytech;
 
 import com.mojang.logging.LogUtils;
 import me.almana.assemblytech.command.PlaceStructureCommand;
-import me.almana.assemblytech.generation.MinerLootRegistries;
 import me.almana.assemblytech.generation.MinerTierConfigRegistries;
 import me.almana.assemblytech.multiblock.validation.IntegrityMonitor;
 import me.almana.assemblytech.registry.ModBlockEntities;
 import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.registry.ModItems;
 import me.almana.assemblytech.registry.ModMenus;
-import me.almana.assemblytech.voidminer.screen.MinerLootScreen;
+import me.almana.assemblytech.registry.ModRecipes;
 import me.almana.assemblytech.voidminer.screen.VoidMinerStatusScreen;
 import me.almana.assemblytech.voidminer.VoidMinerStructures;
 import me.almana.assemblytech.worldgen.ModFeatures;
@@ -110,6 +109,7 @@ public class Assemblytech {
         ModBlockEntities.init();
         ModItems.init();
         ModMenus.init();
+        ModRecipes.init();
         ModFeatures.init();
 
         BLOCKS.register(modEventBus);
@@ -117,10 +117,11 @@ public class Assemblytech {
         BLOCK_ENTITY_TYPES.register(modEventBus);
         MENU_TYPES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        ModRecipes.RECIPE_TYPES.register(modEventBus);
+        ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(MinerLootRegistries::register);
         modEventBus.addListener(MinerTierConfigRegistries::register);
         modEventBus.addListener(this::registerCapabilities);
 
@@ -164,7 +165,6 @@ public class Assemblytech {
 
         @SubscribeEvent
         public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
-            event.register(ModMenus.MINER_LOOT.get(), MinerLootScreen::new);
             event.register(ModMenus.VOID_MINER.get(), VoidMinerStatusScreen::new);
         }
     }

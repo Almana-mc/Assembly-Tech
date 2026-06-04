@@ -1,7 +1,10 @@
 package me.almana.assemblytech.generation;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
@@ -34,7 +37,22 @@ public final class MinerLootBuilder {
 
     public MinerLootBuilder addFull(ItemLike item, int weight, int min, int max, int minTier) {
         if (min > max) throw new IllegalArgumentException("min > max for " + item);
-        entries.add(new WeightedItem(BuiltInRegistries.ITEM.wrapAsHolder(item.asItem()), weight, min, max, minTier));
+        entries.add(WeightedItem.item(BuiltInRegistries.ITEM.wrapAsHolder(item.asItem()), weight, min, max, minTier));
+        return this;
+    }
+
+    public MinerLootBuilder addTag(String tag, int weight) {
+        return addTagFull(tag, weight, 1, 1, 1);
+    }
+
+    public MinerLootBuilder addTagTiered(String tag, int weight, int minTier) {
+        return addTagFull(tag, weight, 1, 1, minTier);
+    }
+
+    public MinerLootBuilder addTagFull(String tag, int weight, int min, int max, int minTier) {
+        if (min > max) throw new IllegalArgumentException("min > max for " + tag);
+        TagKey<Item> key = TagKey.create(Registries.ITEM, Identifier.parse(tag));
+        entries.add(WeightedItem.tag(key, weight, min, max, minTier));
         return this;
     }
 

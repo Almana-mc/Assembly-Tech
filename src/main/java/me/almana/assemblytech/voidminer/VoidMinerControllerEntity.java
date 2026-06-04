@@ -1,9 +1,6 @@
 package me.almana.assemblytech.voidminer;
 
 import me.almana.assemblytech.generation.LootRollSnapshot;
-import me.almana.assemblytech.generation.MinerLootRegistries;
-import me.almana.assemblytech.generation.MinerLootRoll;
-import me.almana.assemblytech.generation.MinerLootTable;
 import me.almana.assemblytech.generation.MinerTierConfig;
 import me.almana.assemblytech.generation.MinerTierConfigRegistries;
 import me.almana.assemblytech.multiblock.api.MultiblockType;
@@ -12,6 +9,8 @@ import me.almana.assemblytech.multiblock.modifier.ModifierData;
 import me.almana.assemblytech.registry.ModBlockEntities;
 import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.voidminer.menu.VoidMinerStatusMenu;
+import me.almana.assemblytech.voidminer.recipe.VoidMiningRecipe;
+import me.almana.assemblytech.voidminer.recipe.VoidMiningRoll;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -158,12 +157,12 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
     }
 
     @Nullable
-    private MinerLootTable lookupLootTable() {
-        if (level == null) return null;
-        Registry<MinerLootTable> reg = level.registryAccess()
-                .lookup(MinerLootRegistries.MINER_LOOT)
+    private VoidMiningRecipe lookupMiningRecipe(int tier) {
+        if (!(level instanceof ServerLevel serverLevel)) return null;
+        return serverLevel.getServer().getRecipeManager()
+                .byKey(VoidMiningRecipe.recipeKey(tier))
+                .map(holder -> holder.value() instanceof VoidMiningRecipe recipe ? recipe : null)
                 .orElse(null);
-        return reg == null ? null : reg.getValue(MinerLootRegistries.VOID_MINER_ORE);
     }
 
     @Override
@@ -244,11 +243,11 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         if (processCounter < effectiveProcessTicks(cfg)) return;
         processCounter = 0;
 
-        MinerLootTable table = lookupLootTable();
-        if (table == null) return;
+        VoidMiningRecipe recipe = lookupMiningRecipe(cfg.tier());
+        if (recipe == null) return;
 
         long seed = level.getRandom().nextLong();
-        LootRollSnapshot snap = MinerLootRoll.prepareSnapshot(table, cfg.tier(), getModifierData(), seed);
+        LootRollSnapshot snap = VoidMiningRoll.prepareSnapshot(recipe.entries(), getModifierData(), seed);
         if (snap.isEmpty()) return;
 
         MinecraftServer server = ((ServerLevel) level).getServer();
@@ -256,7 +255,7 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         pendingRoll = true;
 
         ForkJoinPool.commonPool().execute(() -> {
-            List<ItemStack> drops = MinerLootRoll.rollSnapshot(snap);
+            List<ItemStack> drops = VoidMiningRoll.rollSnapshot(snap);
             server.execute(() -> applyDrops(self, drops));
         });
     }

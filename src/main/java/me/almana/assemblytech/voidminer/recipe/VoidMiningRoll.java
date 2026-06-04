@@ -1,5 +1,6 @@
-package me.almana.assemblytech.generation;
+package me.almana.assemblytech.voidminer.recipe;
 
+import me.almana.assemblytech.generation.LootRollSnapshot;
 import me.almana.assemblytech.multiblock.modifier.ModifierData;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -12,30 +13,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public final class MinerLootRoll {
+public final class VoidMiningRoll {
 
-    private MinerLootRoll() {}
+    private VoidMiningRoll() {}
 
-    public static List<ItemStack> roll(MinerLootTable table, int tier, @Nullable ModifierData modifierData, RandomSource random) {
-        LootRollSnapshot snap = prepareSnapshot(table, tier, modifierData, random.nextLong());
-        return rollSnapshot(snap);
-    }
-
-    public static LootRollSnapshot prepareSnapshot(MinerLootTable table, int tier, @Nullable ModifierData modifierData, long seed) {
-        List<WeightedItem> eligible = new ArrayList<>();
-        for (WeightedItem entry : table.entries()) {
-            if (entry.minTier() <= tier) {
-                eligible.add(entry);
-            }
-        }
-
+    public static LootRollSnapshot prepareSnapshot(List<VoidMiningEntry> entries, @Nullable ModifierData modifierData, long seed) {
         int extraDrops = modifierData != null ? modifierData.getExtraDrops() : 0;
         int parallelBonus = modifierData != null ? modifierData.getParallelBonus() : 0;
         int picks = 1 + extraDrops + parallelBonus;
 
-        List<WeightedItem> resolvedEntries = new ArrayList<>();
+        List<VoidMiningEntry> resolvedEntries = new ArrayList<>();
         List<Item[]> resolvedItems = new ArrayList<>();
-        for (WeightedItem e : eligible) {
+        for (VoidMiningEntry e : entries) {
             List<Item> resolved = e.resolveItems();
             if (resolved.isEmpty()) continue;
 
@@ -44,10 +33,10 @@ public final class MinerLootRoll {
         }
 
         int fortune = modifierData != null ? modifierData.getFortuneLevel() : 0;
-        Set<WeightedItem> boosted = Set.of();
+        Set<VoidMiningEntry> boosted = Set.of();
         if (fortune > 0 && !resolvedEntries.isEmpty()) {
-            List<WeightedItem> sorted = new ArrayList<>(resolvedEntries);
-            sorted.sort(Comparator.comparingInt(WeightedItem::weight));
+            List<VoidMiningEntry> sorted = new ArrayList<>(resolvedEntries);
+            sorted.sort(Comparator.comparingInt(VoidMiningEntry::weight));
             int boostCount = Math.max(1, sorted.size() / 10);
             boosted = new HashSet<>(sorted.subList(0, boostCount));
         }
@@ -59,7 +48,7 @@ public final class MinerLootRoll {
         int[] maxs = new int[n];
         int cursor = 0;
         for (int i = 0; i < n; i++) {
-            WeightedItem e = resolvedEntries.get(i);
+            VoidMiningEntry e = resolvedEntries.get(i);
             int w = e.weight();
             if (boosted.contains(e)) w += fortune;
             cursor += w;

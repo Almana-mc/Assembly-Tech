@@ -1,8 +1,6 @@
 package me.almana.assemblytech.datagen;
 
 import me.almana.assemblytech.Assemblytech;
-import me.almana.assemblytech.generation.MinerLootBootstrap;
-import me.almana.assemblytech.generation.MinerLootRegistries;
 import me.almana.assemblytech.generation.MinerTierConfigBootstrap;
 import me.almana.assemblytech.generation.MinerTierConfigRegistries;
 import me.almana.assemblytech.worldgen.GeothermalVentBiomeModifiers;
@@ -23,18 +21,19 @@ public final class DataGenerators {
     @SubscribeEvent
     public static void onGatherDataServer(GatherDataEvent.Server event) {
         register(event);
+        event.createProvider(VoidMiningRecipeProvider::new);
     }
 
     @SubscribeEvent
     public static void onGatherDataClient(GatherDataEvent.Client event) {
         register(event);
+        event.createProvider(VoidMiningRecipeProvider::new);
         event.createProvider(AssemblytechModelProvider::new);
         event.createProvider(AthenaBlockstateProvider::new);
     }
 
     private static void register(GatherDataEvent event) {
         RegistrySetBuilder builder = new RegistrySetBuilder()
-                .add(MinerLootRegistries.MINER_LOOT, MinerLootBootstrap::bootstrap)
                 .add(MinerTierConfigRegistries.MINER_TIER_CONFIG, MinerTierConfigBootstrap::bootstrap)
                 .add(Registries.CONFIGURED_FEATURE, GeothermalVentConfiguredFeatures::bootstrap)
                 .add(Registries.PLACED_FEATURE, GeothermalVentPlacedFeatures::bootstrap)

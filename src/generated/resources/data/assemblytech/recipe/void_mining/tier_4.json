@@ -1,0 +1,154 @@
+{
+  "type": "assemblytech:void_mining",
+  "entries": [
+    {
+      "tag": "c:ores/coal",
+      "weight": 90
+    },
+    {
+      "tag": "c:ores/iron",
+      "weight": 80
+    },
+    {
+      "tag": "c:ores/copper",
+      "weight": 75
+    },
+    {
+      "tag": "c:ores/aluminum",
+      "weight": 70
+    },
+    {
+      "tag": "c:ores/tin",
+      "weight": 70
+    },
+    {
+      "tag": "c:gems/quartz",
+      "weight": 60
+    },
+    {
+      "tag": "c:gems/apatite",
+      "weight": 55
+    },
+    {
+      "tag": "c:ores/sulfur",
+      "weight": 35
+    },
+    {
+      "tag": "c:gems/niter",
+      "weight": 35
+    },
+    {
+      "tag": "c:gems/salt",
+      "weight": 30
+    },
+    {
+      "tag": "c:ores/lead",
+      "weight": 60
+    },
+    {
+      "tag": "c:ores/nickel",
+      "weight": 60
+    },
+    {
+      "tag": "c:ores/silver",
+      "weight": 60
+    },
+    {
+      "tag": "c:ores/zinc",
+      "weight": 60
+    },
+    {
+      "tag": "c:ores/redstone",
+      "weight": 55
+    },
+    {
+      "tag": "c:gems/fluorite",
+      "weight": 55
+    },
+    {
+      "tag": "c:ores/osmium",
+      "weight": 50
+    },
+    {
+      "tag": "c:gems/lapis",
+      "weight": 45
+    },
+    {
+      "tag": "c:gems/cinnabar",
+      "weight": 45
+    },
+    {
+      "tag": "c:ores/gold",
+      "weight": 40
+    },
+    {
+      "tag": "c:ores/uranium",
+      "weight": 35
+    },
+    {
+      "tag": "c:ores/uraninite",
+      "weight": 35
+    },
+    {
+      "tag": "c:ores/bauxite",
+      "weight": 35
+    },
+    {
+      "tag": "c:ores/gallium",
+      "weight": 30
+    },
+    {
+      "tag": "c:gems/ruby",
+      "weight": 25
+    },
+    {
+      "tag": "c:gems/sapphire",
+      "weight": 25
+    },
+    {
+      "tag": "c:gems/peridot",
+      "weight": 25
+    },
+    {
+      "tag": "c:gems/amber",
+      "weight": 18
+    },
+    {
+      "tag": "c:ores/cobalt",
+      "weight": 18
+    },
+    {
+      "tag": "c:ores/iridium",
+      "weight": 24
+    },
+    {
+      "tag": "c:ores/antimony",
+      "weight": 24
+    },
+    {
+      "tag": "c:gems/diamond",
+      "weight": 20
+    },
+    {
+      "tag": "c:gems/emerald",
+      "weight": 18
+    },
+    {
+      "tag": "c:ores/platinum",
+      "weight": 18
+    },
+    {
+      "tag": "c:ores/monazite",
+      "weight": 18
+    },
+    {
+      "tag": "c:ores/titanium",
+      "weight": 18
+    },
+    {
+      "item": "assemblytech:arcanite_crystal",
+      "weight": 10
+    }
+  ],
+  "tier": 4
+}
