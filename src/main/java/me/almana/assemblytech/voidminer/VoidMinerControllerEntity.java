@@ -8,6 +8,7 @@ import me.almana.assemblytech.multiblock.controller.MultiblockControllerEntity;
 import me.almana.assemblytech.multiblock.modifier.ModifierData;
 import me.almana.assemblytech.registry.ModBlockEntities;
 import me.almana.assemblytech.registry.ModBlocks;
+import me.almana.assemblytech.registry.ModRecipes;
 import me.almana.assemblytech.voidminer.menu.VoidMinerStatusMenu;
 import me.almana.assemblytech.voidminer.recipe.VoidMiningRecipe;
 import me.almana.assemblytech.voidminer.recipe.VoidMiningRoll;
@@ -20,9 +21,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -50,6 +53,15 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
     private static final String TAG_BLOCKED_NO_SPACE = "BlockedNoSpace";
     private static final String TAG_ENERGY = "Energy";
     private static final String TAG_FLUID = "Fluid";
+    private static final String TAG_DESIGNATOR = "Designator";
+
+    private final SimpleContainer designatorContainer = new SimpleContainer(1) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            VoidMinerControllerEntity.this.setChanged();
+        }
+    };
 
     private final ItemStacksResourceHandler outputHandler = new ItemStacksResourceHandler(OUTPUT_SLOTS) {
         @Override
@@ -126,6 +138,10 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         return fluidHandler;
     }
 
+    public SimpleContainer getDesignatorContainer() {
+        return designatorContainer;
+    }
+
     @Override
     public Component getDisplayName() {
         return Component.translatable("container.assemblytech.void_miner");
@@ -157,12 +173,15 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
     }
 
     @Nullable
-    private VoidMiningRecipe lookupMiningRecipe(int tier) {
+    private VoidMiningRecipe lookupMiningRecipe(Item designator) {
         if (!(level instanceof ServerLevel serverLevel)) return null;
-        return serverLevel.getServer().getRecipeManager()
-                .byKey(VoidMiningRecipe.recipeKey(tier))
-                .map(holder -> holder.value() instanceof VoidMiningRecipe recipe ? recipe : null)
-                .orElse(null);
+        // ponytail: linear scan over a handful of designator recipes
+        for (var holder : serverLevel.getServer().getRecipeManager()
+                .recipeMap().byType(ModRecipes.VOID_MINING.get())) {
+            VoidMiningRecipe recipe = holder.value();
+            if (recipe.designator().value() == designator) return recipe;
+        }
+        return null;
     }
 
     @Override
@@ -232,6 +251,17 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
             return;
         }
 
+        ItemStack designator = designatorContainer.getItem(0);
+        if (designator.isEmpty()) {
+            setBlocked(false);
+            return;
+        }
+        VoidMiningRecipe recipe = lookupMiningRecipe(designator.getItem());
+        if (recipe == null) {
+            setBlocked(false);
+            return;
+        }
+
         MinerTierConfig cfg = tierConfig();
         setBlocked(false);
 
@@ -242,9 +272,6 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         processCounter++;
         if (processCounter < effectiveProcessTicks(cfg)) return;
         processCounter = 0;
-
-        VoidMiningRecipe recipe = lookupMiningRecipe(cfg.tier());
-        if (recipe == null) return;
 
         long seed = level.getRandom().nextLong();
         LootRollSnapshot snap = VoidMiningRoll.prepareSnapshot(recipe.entries(), getModifierData(), seed);
@@ -299,6 +326,8 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
     public boolean isWorking() {
         if (!formed || blockedNoSpace || pendingRoll || isOverUpgradeCap()) return false;
         if (!anyOutputHasFreeSlot()) return false;
+        ItemStack designator = designatorContainer.getItem(0);
+        if (designator.isEmpty() || lookupMiningRecipe(designator.getItem()) == null) return false;
         return energyStorage.getAmountAsLong() >= effectiveEnergyPerTick(tierConfig());
     }
 
@@ -409,6 +438,9 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         output.putInt(TAG_ENERGY, (int) energyStorage.getAmountAsLong());
         outputHandler.serialize(output.child(TAG_OUTPUT));
         fluidHandler.serialize(output.child(TAG_FLUID));
+        ItemStack designator = designatorContainer.getItem(0);
+        if (!designator.isEmpty())
+            output.store(TAG_DESIGNATOR, ItemStack.CODEC, designator);
     }
 
     @Override
@@ -419,5 +451,6 @@ public class VoidMinerControllerEntity extends MultiblockControllerEntity implem
         energyStorage.set(input.getIntOr(TAG_ENERGY, 0));
         input.child(TAG_OUTPUT).ifPresent(outputHandler::deserialize);
         input.child(TAG_FLUID).ifPresent(fluidHandler::deserialize);
+        designatorContainer.setItem(0, input.read(TAG_DESIGNATOR, ItemStack.CODEC).orElse(ItemStack.EMPTY));
     }
 }

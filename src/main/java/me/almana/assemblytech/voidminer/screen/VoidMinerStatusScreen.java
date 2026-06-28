@@ -39,6 +39,13 @@ public class VoidMinerStatusScreen extends AbstractContainerScreen<VoidMinerStat
     private static final int INV_SLOT_X = 110;
     private static final int INV_SLOT_Y = 147;
 
+    private static final int DESIGNATOR_PANEL_X = 290;
+    private static final int DESIGNATOR_PANEL_Y = 38;
+    private static final int DESIGNATOR_PANEL_W = 51;
+    private static final int DESIGNATOR_PANEL_H = 76;
+    private static final int DESIGNATOR_SLOT_X = 307;
+    private static final int DESIGNATOR_SLOT_Y = 68;
+
     private static final int POWER_X = 290;
     private static final int POWER_Y = 136;
     private static final int POWER_W = 51;
@@ -88,6 +95,7 @@ public class VoidMinerStatusScreen extends AbstractContainerScreen<VoidMinerStat
         drawHeader(graphics, x, y);
         drawChamber(graphics, x, y, a);
         drawOutputPanel(graphics, x, y);
+        drawDesignatorPanel(graphics, x, y);
         drawInventoryPanel(graphics, x, y);
         drawPowerCell(graphics, x, y);
         drawRivets(graphics, x, y);
@@ -104,12 +112,7 @@ public class VoidMinerStatusScreen extends AbstractContainerScreen<VoidMinerStat
         graphics.text(font, Component.literal("XENO-DRILL Mk." + roman(menu.getTier())), x + 36, y + 6, COLOR_TEXT, false);
         graphics.text(font, Component.translatable("screen.assemblytech.void_miner.header_sub"), x + 36, y + 17, COLOR_TEXT_DIM, false);
 
-        graphics.text(font, Component.literal("UNIT"), x + 172, y + 5, COLOR_TEXT_MUTE, false);
-        graphics.text(font, Component.literal("XD-7"), x + 172, y + 16, COLOR_TEXT, false);
-        graphics.text(font, Component.literal("LINK"), x + 211, y + 5, COLOR_TEXT_MUTE, false);
-        graphics.text(font, Component.literal("ENC"), x + 211, y + 16, COLOR_ACCENT, false);
-        graphics.text(font, Component.literal("UP"), x + 250, y + 5, COLOR_TEXT_MUTE, false);
-        graphics.text(font, Component.literal("04:17"), x + 250, y + 16, COLOR_TEXT, false);
+        drawHeaderProgress(graphics, x, y);
 
         boolean working = menu.isWorking();
         int bx = x + imageWidth - 10 - 52;
@@ -119,6 +122,29 @@ public class VoidMinerStatusScreen extends AbstractContainerScreen<VoidMinerStat
         graphics.text(font, Component.translatable(working
                 ? "screen.assemblytech.void_miner.active"
                 : "screen.assemblytech.void_miner.offline"), bx + 10, by + 4, working ? COLOR_SLOT : COLOR_ACCENT, false);
+    }
+
+    private void drawHeaderProgress(GuiGraphicsExtractor graphics, int x, int y) {
+        int bx = x + 172;
+        int bw = 112;
+        int by = y + 18;
+        int bh = 6;
+
+        int max = menu.getProgressMax();
+        float pct = max > 0 ? Mth.clamp((float) menu.getProgress() / max, 0f, 1f) : 0f;
+        int fill = Math.round(bw * pct);
+
+        graphics.text(font, Component.translatable("screen.assemblytech.void_miner.mining"), bx, y + 5, COLOR_TEXT_MUTE, false);
+
+        graphics.fill(bx - 1, by - 1, bx + bw + 1, by + bh + 1, COLOR_RIM);
+        graphics.fill(bx, by, bx + bw, by + bh, COLOR_CHAMBER);
+        if (fill > 0) {
+            graphics.fill(bx, by, bx + fill, by + bh, COLOR_ACCENT);
+            graphics.fill(bx, by, bx + fill, by + 1, 0xFFFFFFFF);
+        }
+
+        String label = Math.round(pct * 100) + "%";
+        graphics.text(font, Component.literal(label), bx + bw - font.width(label), y + 5, COLOR_TEXT_DIM, false);
     }
 
     private void drawChamber(GuiGraphicsExtractor graphics, int x, int y, float a) {
@@ -231,6 +257,14 @@ public class VoidMinerStatusScreen extends AbstractContainerScreen<VoidMinerStat
             if (menu.getSlot(i).hasItem()) count++;
         }
         return count;
+    }
+
+    private void drawDesignatorPanel(GuiGraphicsExtractor graphics, int x, int y) {
+        int px = x + DESIGNATOR_PANEL_X;
+        int py = y + DESIGNATOR_PANEL_Y;
+        fillFrame(graphics, px, py, DESIGNATOR_PANEL_W, DESIGNATOR_PANEL_H, COLOR_PANEL, COLOR_RIM);
+        graphics.text(font, Component.translatable("screen.assemblytech.void_miner.designator"), px + 5, py + 5, COLOR_TEXT_DIM, false);
+        drawSlot(graphics, x + DESIGNATOR_SLOT_X, y + DESIGNATOR_SLOT_Y);
     }
 
     private void drawInventoryPanel(GuiGraphicsExtractor graphics, int x, int y) {

@@ -57,6 +57,8 @@ public final class AssemblytechModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.PRISTINE_GEOTHERMAL_VENT_WALL.get());
 
         itemModels.generateFlatItem(ModItems.ASSEMBLER.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.TARGET_DESIGNATOR.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.RESOURCE_DESIGNATOR.get(), ModelTemplates.FLAT_ITEM);
         itemModels.itemModelOutput.accept(ModItems.DRILL_BLOCK.get(), ItemModelUtils.specialModel(
                 Identifier.fromNamespaceAndPath(Assemblytech.MODID, "block/drill_block"),
                 new LaserItemRenderer.Unbaked()

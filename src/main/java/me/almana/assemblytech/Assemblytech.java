@@ -83,6 +83,8 @@ public class Assemblytech {
                         output.accept(ModItems.VOID_MINER_CONTROLLER_5.get());
                         output.accept(ModItems.VOID_MINER_CONTROLLER_6.get());
                         output.accept(ModItems.VOID_MINER_CONTROLLER_7.get());
+                        output.accept(ModItems.TARGET_DESIGNATOR.get());
+                        output.accept(ModItems.RESOURCE_DESIGNATOR.get());
                         output.accept(ModItems.ARCANITE_CRYSTAL.get());
                         output.accept(ModItems.SOLUNITE_CRYSTAL.get());
                         output.accept(ModItems.CELESTIUM_CRYSTAL.get());

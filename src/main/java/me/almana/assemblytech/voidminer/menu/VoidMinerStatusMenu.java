@@ -4,7 +4,10 @@ import me.almana.assemblytech.registry.ModBlocks;
 import me.almana.assemblytech.registry.ModMenus;
 import me.almana.assemblytech.voidminer.VoidMinerControllerEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,10 +24,16 @@ import org.jetbrains.annotations.Nullable;
 public class VoidMinerStatusMenu extends AbstractContainerMenu {
 
     private static final int OUTPUT_SLOT_COUNT = 27;
+    private static final int DESIGNATOR_SLOT = OUTPUT_SLOT_COUNT + 36;
     private static final int SLOT_OUTPUT_X = 110;
     private static final int SLOT_OUTPUT_Y = 57;
     private static final int INV_X = 110;
     private static final int INV_Y = 147;
+    private static final int DESIGNATOR_X = 307;
+    private static final int DESIGNATOR_Y = 68;
+
+    private static final TagKey<net.minecraft.world.item.Item> DESIGNATORS =
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("assemblytech", "target_designators"));
 
     private static final class OutputSlot extends Slot {
         OutputSlot(Container container, int index, int x, int y) {
@@ -33,8 +42,17 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         @Override public boolean mayPlace(ItemStack stack) { return false; }
     }
 
+    private static final class DesignatorSlot extends Slot {
+        DesignatorSlot(Container container, int x, int y) {
+            super(container, 0, x, y);
+        }
+        @Override public boolean mayPlace(ItemStack stack) { return stack.is(DESIGNATORS); }
+        @Override public int getMaxStackSize() { return 1; }
+    }
+
     private final ContainerLevelAccess access;
     private final SimpleContainer clientOutput = new SimpleContainer(OUTPUT_SLOT_COUNT);
+    private final SimpleContainer clientDesignator = new SimpleContainer(1);
     @Nullable
     private final VoidMinerControllerEntity miner;
     private final boolean clientSide;
@@ -58,6 +76,7 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         this.access = ContainerLevelAccess.create(be.getLevel(), be.getBlockPos());
         addOutputSlots(be);
         addPlayerSlots(playerInv);
+        addDesignatorSlot(be.getDesignatorContainer());
         addSyncSlots();
     }
 
@@ -72,6 +91,7 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         this.access = ContainerLevelAccess.create(level, pos);
         addOutputSlots(null);
         addPlayerSlots(playerInv);
+        addDesignatorSlot(clientDesignator);
         addSyncSlots();
     }
 
@@ -97,6 +117,10 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         Container c = be != null ? be : clientOutput;
         for (int i = 0; i < OUTPUT_SLOT_COUNT; i++)
             addSlot(new OutputSlot(c, i, SLOT_OUTPUT_X + i % 9 * 18, SLOT_OUTPUT_Y + i / 9 * 18));
+    }
+
+    private void addDesignatorSlot(Container c) {
+        addSlot(new DesignatorSlot(c, DESIGNATOR_X, DESIGNATOR_Y));
     }
 
     private void addPlayerSlots(Inventory inv) {
@@ -262,6 +286,12 @@ public class VoidMinerStatusMenu extends AbstractContainerMenu {
         ItemStack original = stack.copy();
         if (index < OUTPUT_SLOT_COUNT) {
             if (!moveItemStackTo(stack, OUTPUT_SLOT_COUNT, OUTPUT_SLOT_COUNT + 36, true))
+                return ItemStack.EMPTY;
+        } else if (index == DESIGNATOR_SLOT) {
+            if (!moveItemStackTo(stack, OUTPUT_SLOT_COUNT, OUTPUT_SLOT_COUNT + 36, false))
+                return ItemStack.EMPTY;
+        } else if (stack.is(DESIGNATORS)) {
+            if (!moveItemStackTo(stack, DESIGNATOR_SLOT, DESIGNATOR_SLOT + 1, false))
                 return ItemStack.EMPTY;
         } else {
             return ItemStack.EMPTY;

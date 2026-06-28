@@ -1,0 +1,94 @@
+{
+  "type": "assemblytech:void_mining",
+  "designator": "assemblytech:resource_designator",
+  "entries": [
+    {
+      "item": "minecraft:cobblestone",
+      "weight": 100
+    },
+    {
+      "item": "minecraft:stone",
+      "weight": 95
+    },
+    {
+      "item": "minecraft:dirt",
+      "weight": 90
+    },
+    {
+      "item": "minecraft:gravel",
+      "weight": 85
+    },
+    {
+      "item": "minecraft:sand",
+      "weight": 80
+    },
+    {
+      "item": "minecraft:cobbled_deepslate",
+      "weight": 70
+    },
+    {
+      "item": "minecraft:deepslate",
+      "weight": 65
+    },
+    {
+      "item": "minecraft:andesite",
+      "weight": 55
+    },
+    {
+      "item": "minecraft:diorite",
+      "weight": 55
+    },
+    {
+      "item": "minecraft:granite",
+      "weight": 55
+    },
+    {
+      "item": "minecraft:tuff",
+      "weight": 50
+    },
+    {
+      "item": "minecraft:netherrack",
+      "weight": 45
+    },
+    {
+      "item": "minecraft:red_sand",
+      "weight": 40
+    },
+    {
+      "item": "minecraft:sandstone",
+      "weight": 40
+    },
+    {
+      "item": "minecraft:clay",
+      "weight": 35
+    },
+    {
+      "item": "minecraft:calcite",
+      "weight": 30
+    },
+    {
+      "item": "minecraft:basalt",
+      "weight": 28
+    },
+    {
+      "item": "minecraft:blackstone",
+      "weight": 26
+    },
+    {
+      "item": "minecraft:dripstone_block",
+      "weight": 24
+    },
+    {
+      "item": "minecraft:ice",
+      "weight": 22
+    },
+    {
+      "item": "minecraft:packed_ice",
+      "weight": 14
+    },
+    {
+      "item": "minecraft:obsidian",
+      "weight": 8
+    }
+  ]
+}

@@ -3,13 +3,13 @@ package me.almana.assemblytech.voidminer.recipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.almana.assemblytech.Assemblytech;
-import me.almana.assemblytech.registry.ModItems;
 import me.almana.assemblytech.registry.ModRecipes;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
@@ -22,11 +22,11 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public record VoidMiningRecipe(int tier, List<VoidMiningEntry> entries) implements Recipe<VoidMiningRecipe.Input> {
+public record VoidMiningRecipe(Holder<Item> designator, List<VoidMiningEntry> entries) implements Recipe<VoidMiningRecipe.Input> {
 
     public static final Identifier ID = Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_mining");
     public static final MapCodec<VoidMiningRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            com.mojang.serialization.Codec.intRange(1, 64).fieldOf("tier").forGetter(VoidMiningRecipe::tier),
+            BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("designator").forGetter(VoidMiningRecipe::designator),
             VoidMiningEntry.CODEC.listOf().fieldOf("entries").forGetter(VoidMiningRecipe::entries)
     ).apply(inst, VoidMiningRecipe::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, VoidMiningRecipe> STREAM_CODEC = StreamCodec.of(
@@ -34,22 +34,14 @@ public record VoidMiningRecipe(int tier, List<VoidMiningEntry> entries) implemen
             VoidMiningRecipe::read
     );
 
-    public static Identifier recipeId(int tier) {
-        return Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_mining/tier_" + tier);
-    }
-
-    public static ResourceKey<Recipe<?>> recipeKey(int tier) {
-        return ResourceKey.create(Registries.RECIPE, recipeId(tier));
-    }
-
     @Override
     public boolean matches(Input input, Level level) {
-        return input.tier() == tier;
+        return input.designator() == designator.value();
     }
 
     @Override
     public ItemStack assemble(Input input) {
-        return ModItems.crystal(Math.max(1, Math.min(7, tier))).get().getDefaultInstance();
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -83,17 +75,17 @@ public record VoidMiningRecipe(int tier, List<VoidMiningEntry> entries) implemen
     }
 
     private static VoidMiningRecipe read(RegistryFriendlyByteBuf buf) {
-        int tier = buf.readVarInt();
+        Item designator = BuiltInRegistries.ITEM.getValue(buf.readIdentifier());
         List<VoidMiningEntry> entries = buf.readList(VoidMiningEntry::read);
-        return new VoidMiningRecipe(tier, entries);
+        return new VoidMiningRecipe(BuiltInRegistries.ITEM.wrapAsHolder(designator), entries);
     }
 
     private static void write(RegistryFriendlyByteBuf buf, VoidMiningRecipe recipe) {
-        buf.writeVarInt(recipe.tier());
+        buf.writeIdentifier(BuiltInRegistries.ITEM.getKey(recipe.designator().value()));
         buf.writeCollection(recipe.entries(), (entryBuf, entry) -> entry.write(entryBuf));
     }
 
-    public record Input(int tier) implements RecipeInput {
+    public record Input(Item designator) implements RecipeInput {
 
         @Override
         public ItemStack getItem(int index) {
