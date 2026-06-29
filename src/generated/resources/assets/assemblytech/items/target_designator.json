@@ -1,6 +1,9 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "assemblytech:item/target_designator"
+    "type": "minecraft:special",
+    "base": "assemblytech:item/target_designator_base",
+    "model": {
+      "type": "assemblytech:target_designator"
+    }
   }
 }

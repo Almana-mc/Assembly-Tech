@@ -22,11 +22,14 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public record VoidMiningRecipe(Holder<Item> designator, List<VoidMiningEntry> entries) implements Recipe<VoidMiningRecipe.Input> {
+public record VoidMiningRecipe(Holder<Item> designator, String texture, List<VoidMiningEntry> entries) implements Recipe<VoidMiningRecipe.Input> {
 
     public static final Identifier ID = Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_mining");
     public static final MapCodec<VoidMiningRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("designator").forGetter(VoidMiningRecipe::designator),
+            com.mojang.serialization.Codec.STRING.optionalFieldOf("texture", "")
+                    .xmap(texture -> texture.isEmpty() ? "earth" : texture, texture -> texture)
+                    .forGetter(VoidMiningRecipe::texture),
             VoidMiningEntry.CODEC.listOf().fieldOf("entries").forGetter(VoidMiningRecipe::entries)
     ).apply(inst, VoidMiningRecipe::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, VoidMiningRecipe> STREAM_CODEC = StreamCodec.of(
@@ -76,12 +79,14 @@ public record VoidMiningRecipe(Holder<Item> designator, List<VoidMiningEntry> en
 
     private static VoidMiningRecipe read(RegistryFriendlyByteBuf buf) {
         Item designator = BuiltInRegistries.ITEM.getValue(buf.readIdentifier());
+        String texture = buf.readUtf();
         List<VoidMiningEntry> entries = buf.readList(VoidMiningEntry::read);
-        return new VoidMiningRecipe(BuiltInRegistries.ITEM.wrapAsHolder(designator), entries);
+        return new VoidMiningRecipe(BuiltInRegistries.ITEM.wrapAsHolder(designator), texture, entries);
     }
 
     private static void write(RegistryFriendlyByteBuf buf, VoidMiningRecipe recipe) {
         buf.writeIdentifier(BuiltInRegistries.ITEM.getKey(recipe.designator().value()));
+        buf.writeUtf(recipe.texture());
         buf.writeCollection(recipe.entries(), (entryBuf, entry) -> entry.write(entryBuf));
     }
 

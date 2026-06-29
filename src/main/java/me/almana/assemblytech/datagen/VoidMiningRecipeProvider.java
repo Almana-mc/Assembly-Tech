@@ -42,15 +42,15 @@ public final class VoidMiningRecipeProvider extends RecipeProvider.Runner {
     }
 
     private static void buildVoidMiningRecipes(RecipeOutput output) {
-        emit(output, ModItems.TARGET_DESIGNATOR.get(), "target_designator", baseEntries());
-        emit(output, ModItems.RESOURCE_DESIGNATOR.get(), "resource_designator", resourceEntries());
+        emit(output, ModItems.TARGET_DESIGNATOR.get(), "target_designator", "target_astroid1", baseEntries());
+        emit(output, ModItems.RESOURCE_DESIGNATOR.get(), "resource_designator", "earth", resourceEntries());
     }
 
-    private static void emit(RecipeOutput output, ItemLike designatorItem, String path, List<VoidMiningEntry> entries) {
+    private static void emit(RecipeOutput output, ItemLike designatorItem, String path, String texture, List<VoidMiningEntry> entries) {
         var designator = BuiltInRegistries.ITEM.wrapAsHolder(designatorItem.asItem());
         ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE,
                 Identifier.fromNamespaceAndPath(Assemblytech.MODID, "void_mining/" + path));
-        output.accept(key, new VoidMiningRecipe(designator, entries), null);
+        output.accept(key, new VoidMiningRecipe(designator, texture, entries), null);
     }
 
     // base designator: all basic ores; weights are the balance knob

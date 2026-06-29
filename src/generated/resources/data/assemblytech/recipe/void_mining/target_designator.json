@@ -178,5 +178,6 @@
       "item": "assemblytech:arcanite_crystal",
       "weight": 10
     }
-  ]
+  ],
+  "texture": "target_astroid1"
 }

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "assemblytech:item/target/target"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [69, 0, 0],
+      "translation": [0, 4.25, 2],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [69, 0, 0],
+      "translation": [0, 4.25, 2],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "firstperson_righthand": {
+      "translation": [3.5, 0, -7.5]
+    },
+    "firstperson_lefthand": {
+      "translation": [3.5, 0, -7.75]
+    },
+    "ground": {
+      "translation": [0, 5, 0]
+    },
+    "gui": {
+      "rotation": [9, -45, 0],
+      "translation": [0, -1.75, 0],
+      "scale": [0.7, 0.7, 0.7]
+    },
+    "fixed": {
+      "translation": [0, -2.25, -1]
+    }
+  }
+}

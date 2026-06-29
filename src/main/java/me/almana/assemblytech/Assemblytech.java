@@ -12,6 +12,8 @@ import me.almana.assemblytech.registry.ModRecipes;
 import me.almana.assemblytech.voidminer.client.LaserBlockRenderer;
 import me.almana.assemblytech.voidminer.client.LaserItemRenderer;
 import me.almana.assemblytech.voidminer.client.LaserModel;
+import me.almana.assemblytech.voidminer.client.TargetDesignatorItemRenderer;
+import me.almana.assemblytech.voidminer.recipe.DesignatorTexturesPayload;
 import me.almana.assemblytech.voidminer.screen.VoidMinerStatusScreen;
 import me.almana.assemblytech.voidminer.VoidMinerStructures;
 import me.almana.assemblytech.worldgen.ModFeatures;
@@ -36,7 +38,10 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
@@ -131,6 +136,7 @@ public class Assemblytech {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(MinerTierConfigRegistries::register);
         modEventBus.addListener(this::registerCapabilities);
+        modEventBus.addListener(this::registerPayloads);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(IntegrityMonitor.class);
@@ -159,9 +165,22 @@ public class Assemblytech {
                 (be, side) -> be.getFluidHandler());
     }
 
+    private void registerPayloads(RegisterPayloadHandlersEvent event) {
+        event.registrar("1").playToClient(
+                DesignatorTexturesPayload.TYPE,
+                DesignatorTexturesPayload.STREAM_CODEC,
+                (payload, context) -> TargetDesignatorItemRenderer.applyTextures(payload.textures()));
+    }
+
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         PlaceStructureCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public void onDatapackSync(OnDatapackSyncEvent event) {
+        var payload = DesignatorTexturesPayload.create(event.getPlayerList().getServer().getRecipeManager());
+        event.getRelevantPlayers().forEach(player -> PacketDistributor.sendToPlayer(player, payload));
     }
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
@@ -188,6 +207,7 @@ public class Assemblytech {
         @SubscribeEvent
         public static void onRegisterSpecialModelRenderers(RegisterSpecialModelRendererEvent event) {
             event.register(LaserItemRenderer.ID, LaserItemRenderer.Unbaked.MAP_CODEC);
+            event.register(TargetDesignatorItemRenderer.ID, TargetDesignatorItemRenderer.Unbaked.MAP_CODEC);
         }
     }
 }

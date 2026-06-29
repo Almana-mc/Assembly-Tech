@@ -90,5 +90,6 @@
       "item": "minecraft:obsidian",
       "weight": 8
     }
-  ]
+  ],
+  "texture": "earth"
 }
