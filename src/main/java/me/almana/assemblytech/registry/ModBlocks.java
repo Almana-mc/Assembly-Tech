@@ -10,6 +10,7 @@ import me.almana.assemblytech.voidminer.LaserBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -35,12 +36,18 @@ public final class ModBlocks {
     private static DeferredBlock<Block> registerPanel(int tier) {
         return Assemblytech.BLOCKS.registerBlock(
                 "structure_panel_" + tier,
-                props -> new MultiblockSlaveBlock(props, ModBlockEntities.SLAVE::get),
+                props -> new MultiblockSlaveBlock(props, ModBlockEntities.SLAVE::get) {
+                    @Override
+                    protected boolean propagatesSkylightDown(BlockState state) {
+                        return true;
+                    }
+                },
                 () -> BlockBehaviour.Properties.of()
                         .mapColor(MapColor.METAL)
                         .strength(3.0f + tier * 0.5f, 100.0f)
                         .sound(SoundType.METAL)
                         .requiresCorrectToolForDrops()
+                        .noOcclusion()
         );
     }
 
