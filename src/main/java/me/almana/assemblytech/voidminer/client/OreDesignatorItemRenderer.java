@@ -80,9 +80,9 @@ public final class OreDesignatorItemRenderer implements SpecialModelRenderer<Ide
         MeshDefinition mesh = new MeshDefinition();
         var root = mesh.getRoot();
         root.addOrReplaceChild("target", CubeListBuilder.create()
-                .texOffs(0, 0).addBox(-6.0F, -18.0F, 0.0F, 12.0F, 12.0F, 0.01F, new CubeDeformation(0.0F)),
+                .texOffs(0, 0).addBox(-6.0F, -18.0F, 0.0F, 12.0F, 12.0F, 0.01F, new CubeDeformation(-0.0F)),
                 PartPose.offset(0.0F, 24.0F, 0.0F));
-        return LayerDefinition.create(mesh, 32, 32);
+        return LayerDefinition.create(mesh, 12, 12);
     }
 
     private static final class PieceModel extends Model<Void> {
