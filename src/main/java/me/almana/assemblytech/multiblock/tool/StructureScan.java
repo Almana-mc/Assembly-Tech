@@ -22,12 +22,13 @@ public final class StructureScan {
     private StructureScan() {}
 
     public static Path export(ServerLevel level, BlockPos a, BlockPos b) throws IOException {
-        int minX = Math.min(a.getX(), b.getX());
-        int minY = Math.min(a.getY(), b.getY());
-        int minZ = Math.min(a.getZ(), b.getZ());
-        int maxX = Math.max(a.getX(), b.getX());
-        int maxY = Math.max(a.getY(), b.getY());
-        int maxZ = Math.max(a.getZ(), b.getZ());
+        // inner region, marker corners excluded
+        int minX = Math.min(a.getX(), b.getX()) + 1;
+        int minY = Math.min(a.getY(), b.getY()) + 1;
+        int minZ = Math.min(a.getZ(), b.getZ()) + 1;
+        int maxX = Math.max(a.getX(), b.getX()) - 1;
+        int maxY = Math.max(a.getY(), b.getY()) - 1;
+        int maxZ = Math.max(a.getZ(), b.getZ()) - 1;
 
         BlockPos controller = findController(level, minX, minY, minZ, maxX, maxY, maxZ);
         BlockPos origin = controller != null ? controller : new BlockPos(minX, minY, minZ);

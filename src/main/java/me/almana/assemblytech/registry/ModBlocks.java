@@ -110,7 +110,7 @@ public final class ModBlocks {
                     .strength(4.0f, 100.0f)
                     .sound(SoundType.AMETHYST)
                     .requiresCorrectToolForDrops()
-                    .lightLevel(state -> 8)
+                    .lightLevel(state -> 15)
     );
 
     public static final DeferredBlock<Block> VOID_MINER_CONTROLLER_1 = registerController(1);
